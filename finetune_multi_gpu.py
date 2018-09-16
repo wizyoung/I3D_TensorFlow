@@ -41,9 +41,7 @@ VALUES = [LEARNING_RATE_INIT, 0.0008, 0.0005, 0.0003, 0.0001, 5e-5]
 
 TXT_DATA_DIR = './train&val_txt_folder'
 TRAIN_FILE = 'train.txt'
-VAL_FILE = 'val.txt'
 TRAIN_LEN = len(open(os.path.join(TXT_DATA_DIR, TRAIN_FILE), 'r').readlines())
-VAL_LEN = len(open(os.path.join(TXT_DATA_DIR, VAL_FILE), 'r').readlines())
 
 TENSORBOARD_LOG_DIR = './logs/multi_gpu'
 PROGROESS_LOG_FILE = './logs/multi_gpu.log'
@@ -221,6 +219,7 @@ def main():
             train_writer = tf.summary.FileWriter(os.path.join(TENSORBOARD_LOG_DIR, 'train'), sess.graph)
 
             sys.stdout.write('\n----------- start to train -----------\n')
+            sys.stdout.flush()
 
             intermediate_train_info = [0., 0.]
             for epoch in range(EPOCH_NUM):
@@ -273,7 +272,7 @@ def main():
                 sys.stdout.write('\n' + log_info + '\n')
                 sys.stdout.flush()
 
-                shuffle_and_overwrite(os.path.join(TXT_DATA_DIR, 'train_shuffle.txt'))
+                shuffle_and_overwrite(os.path.join(TXT_DATA_DIR, TRAIN_FILE))
                 sess.run(_dataset_init_op)
             train_writer.close()
 
